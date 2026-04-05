@@ -18,7 +18,6 @@ import {
   LogOut,
   ChevronLeft,
   Building2,
-  GraduationCap,
   TrendingDown,
   Link2
 } from 'lucide-react';
@@ -33,7 +32,6 @@ const navItems = [
   { path: '/parser', label: 'Парсер', icon: Link2 },
   { path: '/customers', label: 'Клієнти', icon: Users },
   { path: '/staff', label: 'Персонал', icon: UserCog },
-  { path: '/training', label: 'Навчання', icon: GraduationCap },
   { path: '/finance', label: 'Фінанси', icon: Wallet },
   { path: '/settings', label: 'Налаштування', icon: Settings },
 ];

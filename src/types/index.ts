@@ -1,6 +1,17 @@
 // Types for FashionFlow - Fashion Manufacturing SaaS
 
-export type UserRole = 'admin' | 'manager' | 'worker';
+// Production Roles (Real manufacturing cycle)
+export type ProductionRole = 
+  | 'designer'           // Дизайнер - розробка моделей
+  | 'pattern_maker'      // Конструктор - побудова викрійок
+  | 'technologist'       // Технолог - розробка технології
+  | 'cutter'             // Розкрійник - крій тканини
+  | 'seamstress'         // Швачка - пошив
+  | 'finisher'           // Закрійник - ВТО (волого-теплова обробка)
+  | 'qc_inspector'       // Контролер якості - перевірка
+  | 'packer';            // Пакувальник - упаковка
+
+export type UserRole = 'admin' | 'manager' | 'worker' | ProductionRole;
 
 export interface User {
   id: string;
@@ -12,6 +23,8 @@ export interface User {
   phone?: string;
   position?: string;
   department?: string;
+  productionRole?: ProductionRole;
+  specialties?: string[];
   createdAt: Date;
 }
 
@@ -69,35 +82,199 @@ export type ProductionStatus =
   | 'completed' 
   | 'on_hold';
 
+export type ProductionType = 'serial' | 'individual';
+
 export type OperationType = 
-  | 'cutting' 
-  | 'sewing' 
-  | 'finishing' 
-  | 'quality_control' 
-  | 'packaging';
+  | 'design'             // Дизайн
+  | 'pattern'            // Побудова викрійки
+  | 'tech_process'       // Розробка технології
+  | 'cutting'            // Крій
+  | 'sewing'             // Пошив
+  | 'fitting'            // Примірка (для індивідуальних)
+  | 'finishing'          // ВТО
+  | 'quality_control'     // Контроль якості
+  | 'packaging';         // Пакування
 
 export interface ProductionOperation {
   id: string;
   type: OperationType;
   name: string;
+  description?: string;
   status: ProductionStatus;
   assignedTo?: string;
+  assignedToName?: string;
+  role?: ProductionRole;
   startDate?: Date;
   endDate?: Date;
+  estimatedDuration?: number; // в хвилинах
   notes?: string;
+}
+
+// Garment Preview
+export interface GarmentPreview {
+  id: string;
+  name: string;
+  description?: string;
+  imageUrl?: string;
+  sketchUrl?: string;
+  technicalDrawing?: string;
+  measurements?: GarmentMeasurements;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+// Measurements for individual garments
+export interface GarmentMeasurements {
+  // Верхня частина
+  bust?: number;           // Обхват грудей
+  waist?: number;          // Обхват талії
+  hips?: number;           // Обхват стегон
+  chestWidth?: number;     // Ширина по груді
+  backWidth?: number;      // Ширина спини
+  shoulderWidth?: number;   // Ширина плечей
+  frontLength?: number;    // Довжина переду
+  backLength?: number;      // Довжина спини
+  sleeveLength?: number;    // Довжина рукава
+  armholeDepth?: number;    // Глибина пройми
+  neckCircumference?: number; // Обхват шиї
+  
+  // Нижня частина
+  waistHeight?: number;    // Зріст до талії
+  inseam?: number;         // Довжина штанини
+  outseam?: number;        // Бічна довжина
+  thighCircumference?: number; // Обхват стегна
+  kneeCircumference?: number;  // Обхват коліна
+  calfCircumference?: number; // Обхват литки
+  ankleCircumference?: number; // Обхват щиколотки
+  
+  // Загальні
+  height?: number;        // Зріст
+  weight?: number;         // Вага
+  garmentLength?: number;  // Загальна довжина виробу
+}
+
+// Fitting Stage (для індивідуальних виробів)
+export type FittingStatus = 'scheduled' | 'in_progress' | 'completed' | 'cancelled';
+
+export interface FittingStage {
+  id: string;
+  orderId: string;
+  productionOrderId: string;
+  stageNumber: number;
+  name: string;
+  description?: string;
+  scheduledDate?: Date;
+  actualDate?: Date;
+  status: FittingStatus;
+  notes?: string;
+  changesRequired?: string[];
+  approved: boolean;
+  fittingPhotos?: string[];
+}
+
+// Size Gradation (для серійних моделей)
+export interface SizeGradation {
+  size: string;
+  code: string;           // XS, S, M, L, XL, XXL
+  chestCircumference?: number;
+  waistCircumference?: number;
+  hipsCircumference?: number;
+  backLength?: number;
+  sleeveLength?: number;
+  shoulderWidth?: number;
+  garmentLength?: number;
+  quantity: number;
+}
+
+export interface SizeTable {
+  id: string;
+  name: string;
+  description?: string;
+  baseSize: string;        // Базовий розмір для градації
+  gradations: SizeGradation[];
+  createdAt: Date;
+}
+
+// Production Process Template
+export interface ProductionProcessTemplate {
+  id: string;
+  name: string;
+  description?: string;
+  type: ProductionType;
+  operations: ProductionOperation[];
+  estimatedTime: number;    // в хвилинах на один виріб
+  createdAt: Date;
+}
+
+// Individual Order Parameters
+export interface CustomerParameters {
+  customerId: string;
+  customerName: string;
+  measurements: GarmentMeasurements;
+  preferences?: string;
+  fittingSchedule: FittingStage[];
+  totalFittings: number;
+}
+
+// Serial Order Parameters
+export interface SerialParameters {
+  sizeTableId?: string;
+  sizeTable?: SizeTable;
+  totalQuantity: number;
+  perSizeBreakdown: Record<string, number>;
+}
+
+// Garment Model (Design Reference)
+export interface GarmentModel {
+  id: string;
+  name: string;
+  sku: string;
+  description: string;
+  type: ProductionType;
+  previewUrl?: string;
+  technicalDrawingUrl?: string;
+  sizeTableId?: string;
+  processTemplateId?: string;
+  basePrice: number;
+  materials: string[];     // IDs required materials
+  createdAt: Date;
+  updatedAt: Date;
 }
 
 export interface ProductionOrder {
   id: string;
   orderId: string;
   orderNumber: string;
+  
+  // Production Type
+  type: ProductionType;
+  
+  // Items
+  garmentModelId?: string;
+  garmentModel?: GarmentModel;
+  
+  // Serial Production
+  serialParams?: SerialParameters;
+  
+  // Individual Production
+  individualParams?: CustomerParameters;
+  
+  // Operations
   operations: ProductionOperation[];
+  
+  // Workers
   workers: string[];
+  workerAssignments: { userId: string; userName: string; role: ProductionRole; operationIds: string[] }[];
+  
+  // Timeline
   status: ProductionStatus;
   startDate: Date;
   estimatedEndDate: Date;
   actualEndDate?: Date;
   progress: number;
+  
+  // Preview
+  preview?: GarmentPreview;
 }
 
 // Inventory Types
