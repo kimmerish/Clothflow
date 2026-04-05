@@ -182,3 +182,113 @@ export interface DashboardStats {
   monthlyRevenue: number;
   orderStatusBreakdown: Record<OrderStatus, number>;
 }
+
+// Supplier Types
+export interface Supplier {
+  id: string;
+  name: string;
+  contactPerson?: string;
+  email: string;
+  phone: string;
+  address?: string;
+  website?: string;
+  categories: MaterialCategory[];
+  rating: number;
+  notes?: string;
+  createdAt: Date;
+}
+
+export interface SupplierProduct {
+  id: string;
+  supplierId: string;
+  name: string;
+  sku?: string;
+  category: MaterialCategory;
+  price: number;
+  unit: string;
+  imageUrl?: string;
+  description?: string;
+  url?: string;
+  available: boolean;
+  lastUpdated: Date;
+}
+
+// Training Types
+export interface TrainingLesson {
+  id: string;
+  title: string;
+  description: string;
+  category: 'cutting' | 'sewing' | 'finishing' | 'quality' | 'materials';
+  content: string;
+  videoUrl?: string;
+  duration?: number;
+  order: number;
+}
+
+export interface TrainingProgress {
+  lessonId: string;
+  lessonTitle: string;
+  completed: boolean;
+  completedAt?: Date;
+  score?: number;
+}
+
+export interface OrderTraining {
+  id: string;
+  orderId: string;
+  orderNumber: string;
+  status: 'pending' | 'in_progress' | 'completed' | 'failed';
+  requiredLessons: string[];
+  progress: TrainingProgress[];
+  startedAt?: Date;
+  completedAt?: Date;
+  score?: number;
+  attempts: number;
+}
+
+// Material Consumption Types
+export type ConsumableType = 'fabric' | 'accessory' | 'lace' | 'rhinestone' | 'beads' | 'thread' | 'other';
+
+export interface MaterialConsumption {
+  id: string;
+  orderId: string;
+  orderNumber: string;
+  productionOrderId?: string;
+  materialId?: string;
+  materialName: string;
+  consumableType: ConsumableType;
+  quantityUsed: number;
+  unit: string;
+  unitPrice: number;
+  totalCost: number;
+  date: Date;
+  workerId?: string;
+  workerName?: string;
+  notes?: string;
+}
+
+export interface ConsumptionReport {
+  period: { start: Date; end: Date };
+  byType: Record<ConsumableType, { quantity: number; cost: number }>;
+  byOrder: { orderId: string; orderNumber: string; totalCost: number }[];
+  totalQuantity: number;
+  totalCost: number;
+  topMaterials: { name: string; quantity: number; cost: number }[];
+}
+
+// Parsed Material (from supplier websites)
+export interface ParsedMaterial {
+  id: string;
+  name: string;
+  price: number;
+  unit: string;
+  currency: string;
+  imageUrl?: string;
+  description?: string;
+  sourceUrl: string;
+  supplierName: string;
+  category?: MaterialCategory;
+  sku?: string;
+  available: boolean;
+  parsedAt: Date;
+}

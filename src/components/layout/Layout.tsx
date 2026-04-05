@@ -16,7 +16,11 @@ import {
   X,
   Scissors,
   LogOut,
-  ChevronLeft
+  ChevronLeft,
+  Building2,
+  GraduationCap,
+  TrendingDown,
+  Link2
 } from 'lucide-react';
 
 const navItems = [
@@ -24,8 +28,12 @@ const navItems = [
   { path: '/orders', label: 'Замовлення', icon: ShoppingBag },
   { path: '/production', label: 'Виробництво', icon: Factory },
   { path: '/inventory', label: 'Склад', icon: Package },
+  { path: '/consumption', label: 'Витрати', icon: TrendingDown },
+  { path: '/suppliers', label: 'Постачальники', icon: Building2 },
+  { path: '/parser', label: 'Парсер', icon: Link2 },
   { path: '/customers', label: 'Клієнти', icon: Users },
   { path: '/staff', label: 'Персонал', icon: UserCog },
+  { path: '/training', label: 'Навчання', icon: GraduationCap },
   { path: '/finance', label: 'Фінанси', icon: Wallet },
   { path: '/settings', label: 'Налаштування', icon: Settings },
 ];

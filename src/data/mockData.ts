@@ -10,6 +10,11 @@ import type {
   Customer,
   Transaction,
   DashboardStats,
+  Supplier,
+  TrainingLesson,
+  OrderTraining,
+  MaterialConsumption,
+  ConsumableType,
 } from '@/types';
 
 // Company
@@ -377,3 +382,356 @@ export const getOrdersByStatus = (status: OrderStatus) =>
 
 export const getLowStockMaterials = () =>
   mockMaterials.filter(m => m.quantity <= m.minQuantity);
+
+// Suppliers
+export const mockSuppliers: Supplier[] = [
+  {
+    id: 'sup_1',
+    name: 'Текстиль Україна',
+    contactPerson: 'Олексій Петренко',
+    email: 'info@tekstyl.com.ua',
+    phone: '+380 44 555 1234',
+    address: 'вул. Хрещатик 10, Київ',
+    website: 'https://tekstyl.com.ua',
+    categories: ['fabric', 'thread'],
+    rating: 4.8,
+    notes: 'Провідний постачальник тканин в Україні',
+    createdAt: new Date('2023-01-15'),
+  },
+  {
+    id: 'sup_2',
+    name: 'Silk World',
+    contactPerson: 'Марія Коваленко',
+    email: 'sales@silkworld.com',
+    phone: '+380 32 555 5678',
+    address: 'вул. Садова 25, Львів',
+    website: 'https://silkworld.com',
+    categories: ['fabric', 'lace'],
+    rating: 4.5,
+    notes: 'Спеціалізується на шовкових тканинах',
+    createdAt: new Date('2023-03-20'),
+  },
+  {
+    id: 'sup_3',
+    name: 'Гудтекс',
+    contactPerson: 'Ігор Бондаренко',
+    email: 'order@gudtex.ua',
+    phone: '+380 56 555 9012',
+    address: 'пр. Гагаріна 100, Дніпро',
+    categories: ['thread', 'button'],
+    rating: 4.2,
+    createdAt: new Date('2023-06-10'),
+  },
+  {
+    id: 'sup_4',
+    name: 'Фурнітура Плюс',
+    contactPerson: 'Світлана Шевченко',
+    email: 'info@furnitura.plus',
+    phone: '+380 48 555 3456',
+    address: 'вул. Дерибасівська 15, Одеса',
+    website: 'https://furnitura.plus',
+    categories: ['button', 'zipper', 'accessory', 'rhinestone', 'beads'],
+    rating: 4.7,
+    notes: 'Великий вибір фурнітури та декору',
+    createdAt: new Date('2023-02-28'),
+  },
+  {
+    id: 'sup_5',
+    name: 'Мереживо Маркет',
+    contactPerson: 'Наталія Волощук',
+    email: 'sales@meretyvo.market',
+    phone: '+380 57 555 7890',
+    address: 'вул. Пушкінська 50, Харків',
+    website: 'https://meretyvo.market',
+    categories: ['lace'],
+    rating: 4.6,
+    notes: 'Спеціалізоване мереживо з Європи',
+    createdAt: new Date('2023-08-05'),
+  },
+  {
+    id: 'sup_6',
+    name: 'Бісер Оптом',
+    contactPerson: 'Андрій Козак',
+    email: 'order@biseroptom.com',
+    phone: '+380 61 555 2345',
+    address: 'вул. Миру 30, Запоріжжя',
+    categories: ['beads', 'rhinestone'],
+    rating: 4.3,
+    createdAt: new Date('2023-09-12'),
+  },
+];
+
+// Training Lessons
+export const mockTrainingLessons: TrainingLesson[] = [
+  {
+    id: 'lesson_1',
+    title: 'Основи крою тканин',
+    description: 'Базові техніки розкрою тканин для різних типів одягу',
+    category: 'cutting',
+    content: `# Основи крою тканин
+
+## Підготовка тканини
+1. Перед розкроєм тканину необхідно:
+   - Випрати та висушити
+   - Прасувати
+   - Дати відлежатися 24 години
+
+## Розмітка
+- Використовуйте крейду або водорозчинні маркери
+- Обов'язково враховуйте напрямок нитки
+- Залишайте припуски на шви (1-1.5 см)
+
+## Розкрій
+- Ножиці тримайте під кутом 45°
+- Ріжте по напрямку волокон
+- Для кількох шарів використовуйте роторний ніж`,
+    duration: 45,
+    order: 1,
+  },
+  {
+    id: 'lesson_2',
+    title: 'Техніка пошиву на різних машинах',
+    description: 'Робота на промислових швейних машинах',
+    category: 'sewing',
+    content: `# Техніка пошиву
+
+## Підбір голки
+- Для бавовни: голка №80-90
+- Для синтетики: голка №75-85
+- Для шовку: голка №60-70
+
+## Налаштування машини
+1. Натяг нитки
+2. Зусилля притиску лапки
+3. Довжина стібка
+
+## Типові операції
+- Пряма строчка
+- Зигзаг
+- Оверлочний шов`,
+    duration: 60,
+    order: 2,
+  },
+  {
+    id: 'lesson_3',
+    title: 'Волого-теплова обробка (ВТО)',
+    description: 'Прасування та формування виробу',
+    category: 'finishing',
+    content: `# ВТО - Волого-теплова обробка
+
+## Обладнання
+- Прасувальна дошка
+- Парогенератор
+- Універсальний рукав
+
+## Температурні режими
+- Бавовна: 200°C
+- Поліестер: 150°C
+- Шовк: 110°C
+- Вовна: 160°C (з парою)
+
+## Техніка
+1. Прасуйте з виворітного боку
+2. Використовуйте проутюжник
+3. Для рельєфних деталей - через лляну тканину`,
+    duration: 30,
+    order: 3,
+  },
+  {
+    id: 'lesson_4',
+    title: 'Контроль якості виробу',
+    description: 'Стандарти перевірки готової продукції',
+    category: 'quality',
+    content: `# Контроль якості
+
+## Етапи перевірки
+1. **Візуальний огляд**
+   - Рівність швів
+   - Симетричність
+   - Відсутність плям
+
+2. **Перевірка строчок**
+   - Міцність
+   - Рівномірність
+   - Відсутність пропусків
+
+3. **Вимірювання**
+   - Відповідність розмірній сітці
+   - Допуски ±1 см
+
+## Документація
+- Фото дефектів
+- Акт перевірки
+- Рішення про допуск/відбракування`,
+    duration: 25,
+    order: 4,
+  },
+  {
+    id: 'lesson_5',
+    title: 'Робота з мереживом',
+    description: 'Техніки обробки та пошиву мереживних тканин',
+    category: 'materials',
+    content: `# Робота з мереживом
+
+## Види мережива
+- Тюлеве
+- Кісейне
+- Шаніль
+- Гіпюр
+
+## Підготовка
+1. Обробка країв (зигзагом)
+2. Зміцнення прокладкою
+3. Правильне поєднання візерунку
+
+## Пошив
+- Дрібні стібки
+- М'який натяг нитки
+- Використання спеціальної лапки
+
+## Догляд
+- Ручне прання
+- Зберігання в підвішеному стані`,
+    duration: 40,
+    order: 5,
+  },
+  {
+    id: 'lesson_6',
+    title: 'Пришивання страз та бісеру',
+    description: 'Техніки декорування виробів',
+    category: 'materials',
+    content: `# Пришивання страз та бісеру
+
+## Стrazy
+- Термостразы (прасування)
+- Пришивні (стібки)
+- Самоклейні
+
+## Бісер
+- Розміри: №10, №8, №6
+- Способи нанизування
+- Мереживо з бісеру
+
+## Інструменти
+- Бісерна голка
+- Мононить
+- Наперсток
+
+## Техніка
+1. Закріплення нитки
+2. Рівномірний натяг
+3. Фіксування кінця`,
+    duration: 35,
+    order: 6,
+  },
+  {
+    id: 'lesson_7',
+    title: 'Вибір фурнітури для виробу',
+    description: 'Типи фурнітури та їх застосування',
+    category: 'materials',
+    content: `# Вибір фурнітури
+
+## Гудзики
+- Пластикові
+- Металеві
+- Дерев'яні
+- Перламутрові
+
+## Блискавки
+- Металеві
+- Пластикові
+- Потайні
+- Тракторні
+
+## Кнопки та гачки
+- За的类型
+- Способи кріплення
+
+## Критерії вибору
+1. Відповідність стилю
+2. Міцність
+3. Практичність`,
+    duration: 30,
+    order: 7,
+  },
+];
+
+// Order Training
+export const mockOrderTraining: OrderTraining[] = [
+  {
+    id: 'train_1',
+    orderId: 'order_1',
+    orderNumber: 'FF-2024-001',
+    status: 'completed',
+    requiredLessons: ['lesson_1', 'lesson_2', 'lesson_3', 'lesson_4'],
+    progress: [
+      { lessonId: 'lesson_1', lessonTitle: 'Основи крою тканин', completed: true, completedAt: new Date('2024-03-16'), score: 95 },
+      { lessonId: 'lesson_2', lessonTitle: 'Техніка пошиву', completed: true, completedAt: new Date('2024-03-17'), score: 88 },
+      { lessonId: 'lesson_3', lessonTitle: 'ВТО', completed: true, completedAt: new Date('2024-03-18'), score: 92 },
+      { lessonId: 'lesson_4', lessonTitle: 'Контроль якості', completed: true, completedAt: new Date('2024-03-19'), score: 100 },
+    ],
+    startedAt: new Date('2024-03-16'),
+    completedAt: new Date('2024-03-19'),
+    score: 93.75,
+    attempts: 1,
+  },
+  {
+    id: 'train_2',
+    orderId: 'order_4',
+    orderNumber: 'FF-2024-004',
+    status: 'in_progress',
+    requiredLessons: ['lesson_1', 'lesson_2', 'lesson_5', 'lesson_6', 'lesson_7'],
+    progress: [
+      { lessonId: 'lesson_1', lessonTitle: 'Основи крою тканин', completed: true, completedAt: new Date('2024-04-06'), score: 90 },
+      { lessonId: 'lesson_2', lessonTitle: 'Техніка пошиву', completed: true, completedAt: new Date('2024-04-07'), score: 85 },
+      { lessonId: 'lesson_5', lessonTitle: 'Робота з мереживом', completed: false },
+      { lessonId: 'lesson_6', lessonTitle: 'Пришивання страз', completed: false },
+      { lessonId: 'lesson_7', lessonTitle: 'Вибір фурнітури', completed: false },
+    ],
+    startedAt: new Date('2024-04-06'),
+    attempts: 1,
+  },
+];
+
+// Material Consumption
+export const mockMaterialConsumption: MaterialConsumption[] = [
+  // FF-2024-001 - Суконня вечірня (80 шт)
+  { id: 'cons_1', orderId: 'order_1', orderNumber: 'FF-2024-001', productionOrderId: 'prod_order_1', materialId: 'mat_1', materialName: 'Базова тканина чорна', consumableType: 'fabric', quantityUsed: 120, unit: 'метрів', unitPrice: 120, totalCost: 14400, date: new Date('2024-03-16'), workerId: 'user_3', workerName: 'Іван Бондаренко' },
+  { id: 'cons_2', orderId: 'order_1', orderNumber: 'FF-2024-001', materialName: 'Підкладкова тканина', consumableType: 'fabric', quantityUsed: 60, unit: 'метрів', unitPrice: 80, totalCost: 4800, date: new Date('2024-03-16') },
+  { id: 'cons_3', orderId: 'order_1', orderNumber: 'FF-2024-001', materialName: 'Мереживо декоративне', consumableType: 'lace', quantityUsed: 25, unit: 'метрів', unitPrice: 180, totalCost: 4500, date: new Date('2024-03-17'), workerId: 'user_3', workerName: 'Іван Бондаренко' },
+  { id: 'cons_4', orderId: 'order_1', orderNumber: 'FF-2024-001', materialName: 'Стrazy Swarovski', consumableType: 'rhinestone', quantityUsed: 320, unit: 'штук', unitPrice: 15, totalCost: 4800, date: new Date('2024-03-18'), workerId: 'user_3', workerName: 'Іван Бондаренко' },
+  { id: 'cons_5', orderId: 'order_1', orderNumber: 'FF-2024-001', materialName: 'Бісер чеський', consumableType: 'beads', quantityUsed: 800, unit: 'грам', unitPrice: 2.5, totalCost: 2000, date: new Date('2024-03-18') },
+  { id: 'cons_6', orderId: 'order_1', orderNumber: 'FF-2024-001', materialId: 'mat_4', materialName: 'Нитки чорні 1000м', consumableType: 'thread', quantityUsed: 8, unit: 'штук', unitPrice: 45, totalCost: 360, date: new Date('2024-03-19'), workerId: 'user_3', workerName: 'Іван Бондаренко' },
+  { id: 'cons_7', orderId: 'order_1', orderNumber: 'FF-2024-001', materialId: 'mat_6', materialName: 'Гудзики пластикові 20мм', consumableType: 'accessory', quantityUsed: 320, unit: 'штук', unitPrice: 2.5, totalCost: 800, date: new Date('2024-03-19') },
+  
+  // FF-2024-002 - Блузки (180 шт)
+  { id: 'cons_8', orderId: 'order_2', orderNumber: 'FF-2024-002', productionOrderId: 'prod_order_2', materialId: 'mat_2', materialName: 'Базова тканина біла', consumableType: 'fabric', quantityUsed: 180, unit: 'метрів', unitPrice: 115, totalCost: 20700, date: new Date('2024-03-21'), workerId: 'user_4', workerName: 'Петро Коваленко' },
+  { id: 'cons_9', orderId: 'order_2', orderNumber: 'FF-2024-002', materialName: 'Кружево для коміра', consumableType: 'lace', quantityUsed: 36, unit: 'метрів', unitPrice: 95, totalCost: 3420, date: new Date('2024-03-22') },
+  { id: 'cons_10', orderId: 'order_2', orderNumber: 'FF-2024-002', materialId: 'mat_5', materialName: 'Нитки білі 1000м', consumableType: 'thread', quantityUsed: 12, unit: 'штук', unitPrice: 45, totalCost: 540, date: new Date('2024-03-23'), workerId: 'user_4', workerName: 'Петро Коваленко' },
+  
+  // FF-2024-006 - Штани жіночі (80 шт)
+  { id: 'cons_11', orderId: 'order_6', orderNumber: 'FF-2024-006', productionOrderId: 'prod_order_4', materialName: 'Денім синій', consumableType: 'fabric', quantityUsed: 96, unit: 'метрів', unitPrice: 150, totalCost: 14400, date: new Date('2024-03-02'), workerId: 'user_3', workerName: 'Іван Бондаренко' },
+  { id: 'cons_12', orderId: 'order_6', orderNumber: 'FF-2024-006', materialName: 'Підкладка', consumableType: 'fabric', quantityUsed: 40, unit: 'метрів', unitPrice: 60, totalCost: 2400, date: new Date('2024-03-02') },
+  { id: 'cons_13', orderId: 'order_6', orderNumber: 'FF-2024-006', materialId: 'mat_8', materialName: 'Замок блискавка 50см', consumableType: 'accessory', quantityUsed: 80, unit: 'штук', unitPrice: 35, totalCost: 2800, date: new Date('2024-03-03'), workerId: 'user_3', workerName: 'Іван Бондаренко' },
+  { id: 'cons_14', orderId: 'order_6', orderNumber: 'FF-2024-006', materialName: 'Гудзики металеві', consumableType: 'accessory', quantityUsed: 160, unit: 'штук', unitPrice: 8, totalCost: 1280, date: new Date('2024-03-03') },
+  
+  // FF-2024-008 - Куртки шкільні (300 шт)
+  { id: 'cons_15', orderId: 'order_8', orderNumber: 'FF-2024-008', materialName: 'Тканина для курток', consumableType: 'fabric', quantityUsed: 450, unit: 'метрів', unitPrice: 180, totalCost: 81000, date: new Date('2024-01-22'), workerId: 'user_3', workerName: 'Іван Бондаренко' },
+  { id: 'cons_16', orderId: 'order_8', orderNumber: 'FF-2024-008', materialName: 'Підкладка шкільна', consumableType: 'fabric', quantityUsed: 300, unit: 'метрів', unitPrice: 70, totalCost: 21000, date: new Date('2024-01-22') },
+  { id: 'cons_17', orderId: 'order_8', orderNumber: 'FF-2024-008', materialName: 'Флізелін', consumableType: 'accessory', quantityUsed: 150, unit: 'метрів', unitPrice: 25, totalCost: 3750, date: new Date('2024-01-23') },
+  { id: 'cons_18', orderId: 'order_8', orderNumber: 'FF-2024-008', materialName: 'Блискавки тракторні', consumableType: 'accessory', quantityUsed: 300, unit: 'штук', unitPrice: 28, totalCost: 8400, date: new Date('2024-01-23') },
+  { id: 'cons_19', orderId: 'order_8', orderNumber: 'FF-2024-008', materialName: 'Нитки армовані', consumableType: 'thread', quantityUsed: 45, unit: 'штук', unitPrice: 65, totalCost: 2925, date: new Date('2024-01-24') },
+];
+
+// Helper functions for consumption
+export const getConsumptionByType = (type: ConsumableType) =>
+  mockMaterialConsumption.filter(c => c.consumableType === type);
+
+export const getConsumptionByOrder = (orderId: string) =>
+  mockMaterialConsumption.filter(c => c.orderId === orderId);
+
+export const getTotalConsumptionCost = () =>
+  mockMaterialConsumption.reduce((sum, c) => sum + c.totalCost, 0);
+
+export const getConsumptionByPeriod = (start: Date, end: Date) =>
+  mockMaterialConsumption.filter(c => c.date >= start && c.date <= end);

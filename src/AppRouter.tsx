@@ -7,8 +7,12 @@ import DashboardPage from "./pages/DashboardPage";
 import OrdersPage from "./pages/OrdersPage";
 import ProductionPage from "./pages/ProductionPage";
 import InventoryPage from "./pages/InventoryPage";
+import ConsumptionPage from "./pages/ConsumptionPage";
+import SuppliersPage from "./pages/SuppliersPage";
+import ParserPage from "./pages/ParserPage";
 import CustomersPage from "./pages/CustomersPage";
 import StaffPage from "./pages/StaffPage";
+import TrainingPage from "./pages/TrainingPage";
 import FinancePage from "./pages/FinancePage";
 import SettingsPage from "./pages/SettingsPage";
 import { NIP19Page } from "./pages/NIP19Page";
@@ -61,6 +65,24 @@ export function AppRouter() {
           </ProtectedRoute>
         } />
         
+        <Route path="/consumption" element={
+          <ProtectedRoute>
+            <ConsumptionPage />
+          </ProtectedRoute>
+        } />
+        
+        <Route path="/suppliers" element={
+          <ProtectedRoute>
+            <SuppliersPage />
+          </ProtectedRoute>
+        } />
+        
+        <Route path="/parser" element={
+          <ProtectedRoute>
+            <ParserPage />
+          </ProtectedRoute>
+        } />
+        
         <Route path="/customers" element={
           <ProtectedRoute>
             <CustomersPage />
@@ -70,6 +92,12 @@ export function AppRouter() {
         <Route path="/staff" element={
           <ProtectedRoute>
             <StaffPage />
+          </ProtectedRoute>
+        } />
+        
+        <Route path="/training" element={
+          <ProtectedRoute>
+            <TrainingPage />
           </ProtectedRoute>
         } />
         
